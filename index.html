@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            overflow: hidden;
+        }
+
+        .container {
+            font-family: arial;
+            color: purple;
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        h1 {
+            font-weight: 100;
+        }
+
+        .win {
+            font-size: 46px;
+            color: gold;
+        }
+
+        .number-container,
+        .btn {
+            font-family: arial;
+            font-size: 22px;
+            letter-spacing: 1px;
+            border-style: none;
+            border-radius: 10px;
+            box-shadow: 0 0 3px purple;
+            background-color: transparent;
+            color: purple;
+            text-align: center;
+        }
+
+        .number-container {
+            padding: 25px;
+        }
+
+
+        .btn {
+            padding: 20px;
+            margin: 25px 20px;
+            transition: .2s;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            transform: scale(1.1);
+
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>I thought about a number from 0 to 100. Try to guess this number!</h1>
+        <input type="number" placeholder="Insert number" id="number" class="number-container">
+        <div class="buttons">
+            <button id="startGame" class="btn">Check!</button>
+            <button id="restart" class="btn">Restart</button>
+        </div>
+        <div id="result">
+
+        </div>
+    </div>
+
+
+
+    <script>
+        const play = document.getElementById('startGame');
+        const restart = document.getElementById('restart');
+        const result = document.getElementById('result');
+
+        let randomNumber = Math.floor(Math.random() * 101);
+        console.log(randomNumber);
+
+        let counter = 0;
+
+        const game = function () {
+            result.innerHTML = "";
+            counter++;
+
+            let clearInput = function () {
+                return document.getElementById('number').value = "";
+            }
+
+            let getNumber = function () {
+                let inputValue = document.getElementById('number').value;
+                console.log(parseInt(inputValue));
+                return inputValue;
+            }
+
+            if (getNumber() < randomNumber) {
+                console.log("Too small number");
+                result.innerHTML = `${counter}. Too small number`;
+                getNumber();
+                return;
+            } else if (getNumber() > randomNumber) {
+                console.log("Too many");
+                result.innerHTML = `${counter}. Too many`;
+                getNumber();
+                return;
+            } else if (getNumber() == randomNumber) {
+                console.log(`You won after ${counter} tries.`)
+                result.classList.add('win');
+                result.innerHTML = `You won after ${counter} tries!`;
+                return counter = 0;
+            }
+        }
+
+        const restartGame = function(){
+            randomNumber = Math.floor(Math.random() * 101);
+            counter = 0;
+            document.getElementById('number').value = "";
+            result.innerHTML = "";
+            result.classList.remove('win');
+        }
+
+        play.addEventListener('click', game);
+        restart.addEventListener('click', restartGame)
+
+    </script>
+</body>
+
+</html>
